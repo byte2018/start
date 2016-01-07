@@ -51,6 +51,7 @@ class Compile {
      * @return void
      */
     public function complie() {
+        $this->c_foreach();
         $this->c_var();
         file_put_contents($this->comfile, $this->content);
     }
@@ -59,7 +60,35 @@ class Compile {
      * 简单参数编译
      */
     public function c_var() {
-        $this->content = preg_replace($this->arrPatten, $this->arrPHP, $this->content);
+        $patten_str = "#{$this->arrayConfig['left']}\s*\\$([a-zA-Z_][a-zA-Z0-9_]*)\s*{$this->arrayConfig['right']}#";
+        $php_str = "<?php echo \$this->value['\\1']; ?>";
+        $this->content = preg_replace($patten_str, $php_str, $this->content);
+    }
+    
+    public function c_foreach(){
+        $patten_foreach_str =  "#{$this->arrayConfig['left']}\s*(foreach)\s*(from=)\\$([a-zA-Z_][a-zA-Z0-9_]*)\s*(item=)([a-zA-Z_][a-zA-Z0-9_]*)\s*{$this->arrayConfig['right']}#";
+        
+        preg_match_all($patten_foreach_str, $this->content, $matches, PREG_SET_ORDER);
+        
+         $arrPatten = array(
+            "#{$this->arrayConfig['left']}\s*(foreach)\s*(from=)\\$([a-zA-Z_][a-zA-Z0-9_]*)\s*(item=)([a-zA-Z_][a-zA-Z0-9_]*)\s*{$this->arrayConfig['right']}#",
+            "#{$this->arrayConfig['left']}\s*(\/foreach)\s*{$this->arrayConfig['right']}#"
+        );
+
+        $arrPHP = array(
+            "<?php foreach ((array) \$this->value['\\3'] as \$k => \$\\5){ ?>",
+             "<?php } ?>"
+        );
+        
+        
+        
+        foreach ($matches as $val) {
+            $patten_str = "#{$this->arrayConfig['left']}\s*\\$({$val[5]}(\\[|\\.|->))(.*)\s*{$this->arrayConfig['right']}#";
+            $php_str = "<?php echo \$\\1\\3; ?>";
+            $this->content = preg_replace($patten_str, $php_str, $this->content);
+        }    
+         
+        $this->content = preg_replace($arrPatten, $arrPHP, $this->content); 
     }
     
 

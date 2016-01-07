@@ -9,7 +9,7 @@
         <div><!--{       $data}--><!--{$data      }--><!--{$data}--><!--{$data}--><!--{$data}--><!--{$data2}--></div>
 
       <!--{foreach from=$myArray item=foo }-->
-        <li><!--{$foo}--></li>
+        <li><!--{$foo[0]}--></li>
        <!--{/foreach}-->
           
     </body>

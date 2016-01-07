@@ -9,7 +9,7 @@
         <div><?php echo $this->value['data']; ?><?php echo $this->value['data']; ?><?php echo $this->value['data']; ?><?php echo $this->value['data']; ?><?php echo $this->value['data']; ?><?php echo $this->value['data2']; ?></div>
 
       <?php foreach ((array) $this->value['myArray'] as $k => $foo){ ?>
-        <li><?php echo $this->value['foo']; ?></li>
+        <li><?php echo $foo[0]; ?></li>
        <?php } ?>
           
     </body>
