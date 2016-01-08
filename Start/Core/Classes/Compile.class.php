@@ -60,8 +60,8 @@ class Compile {
      * 简单参数编译
      */
     public function c_var() {
-        $patten_str = "#{$this->arrayConfig['left']}\s*\\$([a-zA-Z_][a-zA-Z0-9_]*)\s*{$this->arrayConfig['right']}#";
-        $php_str = "<?php echo \$this->value['\\1']; ?>";
+        $patten_str = "#{$this->arrayConfig['left']}\s*\\$([a-zA-Z_][a-zA-Z0-9_]*)([a-zA-Z0-9_(\\[(a-zA-Z0-9_\"\')\\]|\\.|\\-\\>)]*)\s*{$this->arrayConfig['right']}#";
+        $php_str = "<?php echo \$this->value['\\1']\\2; ?>";
         $this->content = preg_replace($patten_str, $php_str, $this->content);
     }
     

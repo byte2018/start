@@ -6,12 +6,26 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div><?php echo $this->value['data']; ?><?php echo $this->value['data']; ?><?php echo $this->value['data']; ?><?php echo $this->value['data']; ?><?php echo $this->value['data']; ?><?php echo $this->value['data2']; ?></div>
+        <div><?php echo $this->value['data'].a; ?>
+<?php echo $this->value['data']->a; ?>
+<?php echo $this->value['data'][2]; ?>
+<?php echo $this->value['data']["fsdfaddfadsf"]; ?>
+<?php echo $this->value['data']['fsdfaddfadsf']; ?>
+<?php echo $this->value['data2']; ?>
+</div>
 
       <?php foreach ((array) $this->value['myArray'] as $k => $foo){ ?>
-        <li><?php echo $foo[0]; ?></li>
+        <li><?php echo $foo[0]     ; ?></li>
        <?php } ?>
-          
+       
+
+     <!--{if $isflag == 1}-->
+
+     <!--{elseif $isflag == 2}-->
+
+     <!--{else}-->
+
+     <!--{/if}-->
     </body>
 </html>
 
