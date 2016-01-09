@@ -6,15 +6,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div><?php echo $this->value['data'].a; ?>
-<?php echo $this->value['data']->a; ?>
-<?php echo $this->value['data'][2]; ?>
-<?php echo $this->value['data']["fsdfaddfadsf"]; ?>
-<?php echo $this->value['data']['fsdfaddfadsf']; ?>
-<?php echo $this->value['data2']; ?>
+        <div><?php echo $data; ?>
+
 </div>
 
-      <?php foreach ((array) $this->value['myArray'] as $k => $foo){ ?>
+      <?php foreach ((array) $myArray as $k => $foo){ ?>
         <li><?php echo $foo[0]     ; ?></li>
        <?php } ?>
        

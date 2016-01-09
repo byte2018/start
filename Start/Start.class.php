@@ -130,10 +130,18 @@ class Start {
         if (!is_file($this->path())) {
             exit('找不到对应得模板文件');
         }
-
+        
+        /////////////////////用数组生成动态变量
+        foreach ($this->value as $k => $v) {
+            $$k = $v;
+        }
+        
+       
+        
+        ///////////////////////
         $complieFile = $this->arrayConfig['complie'] . md5($file) . '.php'; //获得编译文件的路径
         
-        $this->compileTool = new Compile($this->path(), $complieFile, $this->arrayConfig);
+        $this->compileTool = new Compile($this->path(), $complieFile, $this->arrayConfig, $this->value);
         
         if (!is_file($complieFile)) {
             if (!is_dir($this->arrayConfig['complie'])) {

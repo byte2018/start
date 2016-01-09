@@ -19,27 +19,14 @@ class Compile {
     private $comfile; //编译后的文件
     private $value = array();
     private $content; //需要替换的文本
-    private $arrPatten = array(); //定制正则表达式匹配数组
-    private $arrPHP = array(); //定制匹配后的编译结果
+  
 
-    public function __construct($template, $comfile, $arrayConfig) {
+    public function __construct($template, $comfile, $arrayConfig, $value) {
         $this->template = $template;
         $this->comfile = $comfile;
         $this->arrayConfig = $arrayConfig;
-
-        $this->arrPatten = array(
-            "#{$arrayConfig['left']}\s*\\$([a-zA-Z_][a-zA-Z0-9_]*)\s*{$arrayConfig['right']}#",
-            "#{$arrayConfig['left']}\s*(foreach)\s*(from=)\\$([a-zA-Z_][a-zA-Z0-9_]*)\s*(item=)([a-zA-Z_][a-zA-Z0-9_]*)\s*{$arrayConfig['right']}#",
-            "#{$arrayConfig['left']}\s*(foreach)(.*)({$arrayConfig['right']})(.*){$arrayConfig['left']}\s*\\$([a-zA-Z_][a-zA-Z0-9_]*)\s*{$arrayConfig['right']}#",        
-            "#{$arrayConfig['left']}\s*(\/foreach)\s*{$arrayConfig['right']}#"
-        );
-
-        $this->arrPHP = array(
-            "<?php echo \$this->value['\\1']; ?>",
-            "<?php foreach ((array) \$this->value['\\3'] as \$k => \$\\5){ ?>",
-             "<?php echo \$\\1; ?>",
-             "<?php } ?>"
-        );
+        $this->value = $value;
+       
 
         $this->content = file_get_contents($template);
     }
@@ -61,10 +48,13 @@ class Compile {
      */
     public function c_var() {
         $patten_str = "#{$this->arrayConfig['left']}\s*\\$([a-zA-Z_][a-zA-Z0-9_]*)([a-zA-Z0-9_(\\[(a-zA-Z0-9_\"\')\\]|\\.|\\-\\>)]*)\s*{$this->arrayConfig['right']}#";
-        $php_str = "<?php echo \$this->value['\\1']\\2; ?>";
+        $php_str = "<?php echo \$\\1\\2; ?>";
         $this->content = preg_replace($patten_str, $php_str, $this->content);
     }
     
+    /**
+     * 迭代参数编译
+     */
     public function c_foreach(){
         $patten_foreach_str =  "#{$this->arrayConfig['left']}\s*(foreach)\s*(from=)\\$([a-zA-Z_][a-zA-Z0-9_]*)\s*(item=)([a-zA-Z_][a-zA-Z0-9_]*)\s*{$this->arrayConfig['right']}#";
         
@@ -76,11 +66,9 @@ class Compile {
         );
 
         $arrPHP = array(
-            "<?php foreach ((array) \$this->value['\\3'] as \$k => \$\\5){ ?>",
+            "<?php foreach ((array) \$\\3 as \$k => \$\\5){ ?>",
              "<?php } ?>"
         );
-        
-        
         
         foreach ($matches as $val) {
             $patten_str = "#{$this->arrayConfig['left']}\s*\\$({$val[5]}(\\[|\\.|->))(.*)\s*{$this->arrayConfig['right']}#";
@@ -89,6 +77,15 @@ class Compile {
         }    
          
         $this->content = preg_replace($arrPatten, $arrPHP, $this->content); 
+    }
+    
+    /**
+     * if语句编译
+     */
+    public function c_if(){
+        
+        
+        
     }
     
 
