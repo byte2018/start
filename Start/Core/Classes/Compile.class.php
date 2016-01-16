@@ -38,6 +38,7 @@ class Compile {
      * @return void
      */
     public function complie() {
+        $this->c_include();
         $this->c_foreach();
         $this->c_if();
         $this->c_var();
@@ -121,6 +122,28 @@ class Compile {
         
         $this->content = preg_replace($arrPatten, $arrPHP, $this->content); 
     }
+    
+    /**
+     * include 语句编译
+     * 
+     * @access public
+     * @return void
+     */
+    public function c_include(){
+        
+        
+        $patten_str = "#{$this->arrayConfig['left']}\s*include\s*\\'(.*)\\'\s*{$this->arrayConfig['right']}#";
+        
+        preg_match_all($patten_str, $this->content, $matches, PREG_SET_ORDER);
+        
+        foreach ($matches as $val) {
+            $include_file = $this->arrayConfig['template'] . $val[1] ;//获得引入文件的位置
+            $this->content = preg_replace($patten_str, file_get_contents($include_file), $this->content);
+        }    
+        
+        
+    }
+    
     
 
 }

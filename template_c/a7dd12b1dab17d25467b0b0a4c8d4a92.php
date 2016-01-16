@@ -1,10 +1,16 @@
-<?php use Core\Model\StartModel;?><!DOCTYPE html>
+<?php use Core\Model\StartModel;?>
+<!DOCTYPE html>
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>王震万岁</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
+    
+
+
+
+
     <body>
         <div><?php echo $this->value['data']+ 1; ?><?php echo $this->value['data'][0]+ 1; ?><?php echo $this->value['data']; ?><?php echo $this->value['data']; ?>
 
